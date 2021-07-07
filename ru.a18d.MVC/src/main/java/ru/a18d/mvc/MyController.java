@@ -1,13 +1,22 @@
 package ru.a18d.mvc;
 
+import jakarta.validation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ru.a18d.mvc.objects.User;
+import ru.a18d.mvc.objects.UserValidator;
+
+import java.util.Set;
+
+//import javax.validation.Valid;
+
 
 @Controller
 public class MyController {
@@ -15,15 +24,29 @@ public class MyController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView showFirstView() {
-        logger.debug("MyController.showFirstView");
-        System.out.println("HW");
+        logger.debug("index is loading");
         return new ModelAndView("index", "user", new User());
     }
 
+    //    @RequestMapping(value = "/checkUser", method = RequestMethod.POST)
+//    public ModelAndView checkUser1(@ModelAttribute("user") User user) {
+//
+//        return new ModelAndView("main", "user", user);
+//    }
     @RequestMapping(value = "/checkUser", method = RequestMethod.POST)
-    public ModelAndView checkUser1(@ModelAttribute("user") User user) {
+    public String checkUser(@Valid @ModelAttribute("user") User user,
+                            BindingResult bindingResult,
+                            Model model) {
 
-        return new ModelAndView("main", "user", user);
+        UserValidator userValidator = new UserValidator();
+        userValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
+        model.addAttribute("user", user);
+        return "main";
     }
 
     @RequestMapping(value = "/failed", method = RequestMethod.GET)
