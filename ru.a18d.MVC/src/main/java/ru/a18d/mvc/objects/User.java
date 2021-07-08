@@ -3,9 +3,6 @@ package ru.a18d.mvc.objects;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-
-//import javax.validation.constraints.Size;
-
 public class User {
     @NotNull
     @Size(min = 6, message = "Имя должно быть больше 6 знаков")
@@ -18,6 +15,9 @@ public class User {
     private boolean admin;
 
     public User() {
+        name = "";
+        password = "";
+        admin = false;
     }
 
     public void setAdmin(boolean admin) {

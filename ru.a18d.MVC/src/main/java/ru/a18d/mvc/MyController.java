@@ -6,16 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.a18d.mvc.objects.User;
 import ru.a18d.mvc.objects.UserValidator;
-
-import java.util.Set;
-
-//import javax.validation.Valid;
 
 
 @Controller
@@ -52,5 +46,14 @@ public class MyController {
     @RequestMapping(value = "/failed", method = RequestMethod.GET)
     public ModelAndView failed() {
         return new ModelAndView("failed", "message", "Login failed!");
+    }
+
+    @RequestMapping(value = "/get-json-user/{name}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public User getJsonUser(@PathVariable("name") String name) {
+        logger.debug("rest param:" + name);
+        User user = new User();
+        user.setName(name);
+        return user;
     }
 }
