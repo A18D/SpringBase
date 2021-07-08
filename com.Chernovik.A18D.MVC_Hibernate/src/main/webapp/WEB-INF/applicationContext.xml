@@ -31,8 +31,8 @@
           destroy-method="close">
         <property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
         <property name="jdbcUrl" value="jdbc:sqlserver://localhost;databaseName=my_db" />
-        <property name="user" value="C1" />
-        <property name="password" value="18198812" />
+        <property name="user" value="***" />
+        <property name="password" value="***" />
     </bean>
 
     <bean id="sessionFactory"
